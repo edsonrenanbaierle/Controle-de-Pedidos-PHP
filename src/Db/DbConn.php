@@ -11,10 +11,10 @@ class DbConn
     public static function coon()
     {
         try {
-            $host = "meu-mysql-desafio3-1";
+            $host = "meu-mysql-desafio3-2";
             $user = "root";
             $password = "root";
-            $db = "desafio3product";
+            $db = "pedidos";
 
             return new PDO("mysql:host=$host;dbname=$db", $user, $password);
         } catch (\PDOException $e) {
