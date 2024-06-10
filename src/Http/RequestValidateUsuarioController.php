@@ -5,10 +5,11 @@ namespace App\Http;
 class RequestValidateUsuarioController
 {
     private static $dataRequestControllerConfirmation = [
-        "createUser" => ["email", "senha", "endereco", "cep"]
+        "createUser" => ["email", "senha", "endereco", "cep"],
+        "login"      => ["email", "senha"]
     ];
 
-    public static function validateControllerCategoria($body, $nameFunctionControlerProduct)
+    public static function validateUsuarioController($body, $nameFunctionControlerProduct)
     {
         $deveConterPorParametro = self::$dataRequestControllerConfirmation[$nameFunctionControlerProduct];
         foreach ($deveConterPorParametro as $value) {

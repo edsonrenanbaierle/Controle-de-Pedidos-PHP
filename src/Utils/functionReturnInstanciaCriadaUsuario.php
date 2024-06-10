@@ -3,6 +3,7 @@
 use App\Model\Usuario;
 
 function returnInstanciaCriadaUsuarioCreateUser($body){
+    $body["senha"] = password_hash($body["senha"], PASSWORD_DEFAULT);
     return new Usuario(
         null,
         $body["email"],
