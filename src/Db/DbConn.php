@@ -11,12 +11,7 @@ class DbConn
     public static function coon()
     {
         try {
-            $host = "meu-mysql-desafio3-2";
-            $user = "root";
-            $password = "root";
-            $db = "pedidos";
-
-            return new PDO("mysql:host=$host;dbname=$db", $user, $password);
+            return new PDO("mysql:host=" . $_ENV['HOST'] . ";dbname=" . $_ENV['DB'], $_ENV['USER'], $_ENV['PASSWORD']);
         } catch (\PDOException $e) {
             Response::responseMessage(
                 ["error" => "Erro ao conectar-se ao banco de dados"],
