@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - C:\Users\User\Desktop\desafio3.2:/var/www/html
+      - /home/imply/Área de Trabalho/Pedidos:/var/www/html
     links:
       - db
     command: bash -c "docker-php-ext-install pdo pdo_mysql mysqli && a2enmod rewrite && apache2-foreground"
