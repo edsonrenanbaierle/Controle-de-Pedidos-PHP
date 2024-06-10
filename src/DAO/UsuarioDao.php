@@ -26,8 +26,8 @@ class UsuarioDao
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!password_verify($body["senha"], $user["senha"])) throw new Exception("Email ou Senha incorreto", 400);
-            if (!$user["senha"] == $body["senha"]) throw new Exception("Email ou Senha incorreto", 500);
+            if ($stmt->rowCount() == 0) throw new Exception("Email ou Senha incorreto", 400);
+            if(!password_verify($body["senha"], $user["senha"])) throw new Exception("Email ou Senha incorreto", 400);
 
             return "Usuario autenticado com sucesso";
         } catch (\PDOException $e) {
