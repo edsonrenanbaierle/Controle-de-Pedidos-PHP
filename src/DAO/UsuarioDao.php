@@ -3,6 +3,7 @@
 namespace App\DAO;
 
 use App\Db\DbConn;
+use App\Http\Response;
 use App\Model\Usuario;
 use Exception;
 use PDO;
@@ -29,7 +30,8 @@ class UsuarioDao
             if ($stmt->rowCount() == 0) throw new Exception("Email ou Senha incorreto", 401);
             if (!password_verify($body["senha"], $user["senha"])) throw new Exception("Email ou Senha incorreto", 401);
 
-            return "Usuario autenticado com sucesso";
+            $token = Response::generateToken($user);
+            return $token;
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {

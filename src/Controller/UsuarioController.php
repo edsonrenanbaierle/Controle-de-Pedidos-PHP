@@ -23,7 +23,7 @@ class UsuarioController
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
-                "Message" => $respostaAoUsuario
+                "token" => $respostaAoUsuario
             ], 200);
         } catch (\Exception $e) {
             Response::responseMessage([
