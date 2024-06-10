@@ -4,7 +4,8 @@ namespace App\Model;
 
 use DateTime;
 
-class Pedido{
+class Pedido
+{
     private ?int $idPedido;
     private DateTime $dataPedido;
     private DateTime $dataEntregaPedido;
@@ -12,13 +13,14 @@ class Pedido{
     private int $idStatus;
     private int $idUsuario;
 
-    public function __construct(int $idPedido, 
-    DateTime $dataPedido, 
-    DateTime $dataEntregaPedido,
-    int $idTipoPagamento, 
-    int $idStatus,
-    int $idUsuario)
-    {
+    public function __construct(
+        int $idPedido,
+        DateTime $dataPedido,
+        DateTime $dataEntregaPedido,
+        int $idTipoPagamento,
+        int $idStatus,
+        int $idUsuario
+    ) {
         $this->idPedido = $idPedido;
         $this->dataPedido = $dataPedido;
         $this->dataEntregaPedido = $dataEntregaPedido;

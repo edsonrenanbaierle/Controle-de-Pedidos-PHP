@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace App\Model;
 
-class Usuario{
+class Usuario
+{
     private ?int $idUsuario;
     private string $email;
     private string $senha;

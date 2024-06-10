@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace App\Model;
 
-class Status{
+class Status
+{
     private ?int $idStatus;
     private string $nomeStatus;
 
@@ -12,7 +13,7 @@ class Status{
         $this->nomeStatus = $nomeStatus;
     }
 
-    
+
     public function getIdStatus(): ?int
     {
         return $this->idStatus;

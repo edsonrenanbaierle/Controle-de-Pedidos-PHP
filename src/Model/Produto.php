@@ -1,20 +1,22 @@
-<?php 
+<?php
 
 namespace App\Model;
 
-class Produto{
+class Produto
+{
     private ?int $idProduto;
     private int $estoque;
     private string $nome;
     private int $preco;
     private string $descricao;
 
-    public function __construct(int $idProduto = null,
-    int $estoque,
-    string $nome,
-    int $preco,
-    string $descricao)
-    {
+    public function __construct(
+        int $idProduto = null,
+        int $estoque,
+        string $nome,
+        int $preco,
+        string $descricao
+    ) {
         $this->idProduto = $idProduto;
         $this->estoque = $estoque;
         $this->nome = $nome;

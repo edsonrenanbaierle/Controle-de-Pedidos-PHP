@@ -1,7 +1,9 @@
-<?php 
+<?php
+
 namespace App\Model;
 
-class TipoPagamento{
+class TipoPagamento
+{
     private ?int $idPagamento;
     private string $nomePagamento;
 

@@ -1,25 +1,32 @@
-<?php 
+<?php
+
 namespace App\Controller;
 
-class PedidoController{
+class PedidoController
+{
 
-    public function getAllPedidos(){
+    public function getAllPedidos()
+    {
         echo "getAllPedidos";
     }
 
-    public function getPedido(){
+    public function getPedido()
+    {
         echo "getPedido";
     }
 
-    public function createPedido(){
+    public function createPedido()
+    {
         echo "createPedido";
     }
 
-    public function cancelPedido(){
+    public function cancelPedido()
+    {
         echo "cancelPedido";
     }
 
-    public function deletePedido(){
+    public function deletePedido()
+    {
         echo "deletePedido";
     }
 }
