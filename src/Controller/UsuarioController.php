@@ -58,4 +58,30 @@ class UsuarioController
             ], $e->getCode());
         }
     }
+
+    public function updateUser()
+    {
+        try {
+            $token = Request::authorization();
+            $body = Request::body();
+
+            RequestValidateUsuarioController::validateUsuarioController($body, "updateUser");
+            $usuario = returnInstanciaCriadaUsuarioUpdateUser($body);
+
+            $usuarioDao = new UsuarioDao();
+            $respostaAoUsuario = $usuarioDao->updateUser($usuario, $token->idUsuario);
+
+            Response::responseMessage([
+                "sucess" => true,
+                "failed" => false,
+                "Message" => $respostaAoUsuario
+            ], 200);
+        } catch (\Exception $e) {
+            Response::responseMessage([
+                "sucess" => false,
+                "failed" => true,
+                "error" => $e->getMessage(),
+            ], $e->getCode());
+        }
+    }
 }

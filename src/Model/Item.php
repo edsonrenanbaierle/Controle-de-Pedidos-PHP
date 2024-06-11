@@ -8,7 +8,7 @@ class Item{
     private int $idProduto;
     private int $idPedido;
 
-    public function __construct(int $idItem, int $quantidade, int $idProduto, int $idPedido)
+    public function __construct(int $idItem = null, int $quantidade, int $idProduto, int $idPedido)
     {
         $this->idItem = $idItem;
         $this->quantidade = $quantidade;

@@ -18,8 +18,8 @@ CREATE TABLE status(
 
 CREATE TABLE pedido(
 	idPedido INT PRIMARY KEY AUTO_INCREMENT,
-	dataPedido DATE NOT NULL,
-	dataEntregaPedido DATE NOT NULL,
+	dataPedido DATETIME NOT NULL,
+	dataEntregaPedido DATETIME NOT NULL,
 	idTipoPagamento INT NOT NULL,
 	idStatus INT NOT NULL,
 	idUsuario INT NOT NULL,
@@ -44,3 +44,16 @@ CREATE  TABLE item(
 	FOREIGN KEY (idProduto) REFERENCES produto(idProduto),
     FOREIGN KEY (idPedido) REFERENCES pedido(idPedido)
 );
+
+INSERT INTO status (nomeStatus) values ("enviado");
+INSERT INTO status (nomeStatus) values ("cancelado");
+INSERT INTO status (nomeStatus) values ("entregue");
+
+INSERT INTO tipoPagamento (nomePagamento) values ("cartao de credito"); 
+INSERT INTO tipoPagamento (nomePagamento) values ("dinheiro"); 
+INSERT INTO tipoPagamento (nomePagamento) values ("cartao de debito"); 
+
+INSERT  INTO produto (estoque, nome, preco, descricao) values (20, "Capinha de Celular", 1500, "Capinha Celular Iphone 8");
+INSERT  INTO produto (estoque, nome, preco, descricao) values (5, "Camiseta", 10000, "Camiseta Feminina G");
+INSERT  INTO produto (estoque, nome, preco, descricao) values (14, "Bermuda", 5000, "Bermuda Masculina");
+INSERT  INTO produto (estoque, nome, preco, descricao) values (2, "Chuteira", 35000, "Chuteira Masculina De Campo, numero 42");

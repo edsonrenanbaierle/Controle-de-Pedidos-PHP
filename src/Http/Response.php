@@ -18,7 +18,7 @@ class Response
 
     public static function generateToken($body){
         $payload = [
-            "exp" => time() + 2000000000,
+            "exp" => time() + 40000,
             "iat" => time(),
             "email" => $body["email"],
             "idUsuario" => $body["idUsuario"]

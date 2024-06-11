@@ -14,7 +14,7 @@ class Pedido
     private int $idUsuario;
 
     public function __construct(
-        int $idPedido,
+        int $idPedido = null,
         DateTime $dataPedido,
         DateTime $dataEntregaPedido,
         int $idTipoPagamento,

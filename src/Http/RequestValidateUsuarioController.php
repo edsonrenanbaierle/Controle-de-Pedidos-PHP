@@ -6,6 +6,7 @@ class RequestValidateUsuarioController
 {
     private static $dataRequestControllerConfirmation = [
         "createUser" => ["email", "senha", "endereco", "cep"],
+        "updateUser" => ["email", "senha", "endereco", "cep"],
         "login"      => ["email", "senha"]
     ];
 

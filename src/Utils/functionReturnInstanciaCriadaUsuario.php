@@ -13,3 +13,15 @@ function returnInstanciaCriadaUsuarioCreateUser($body)
         $body["cep"]
     );
 }
+
+function returnInstanciaCriadaUsuarioUpdateUser($body)
+{
+    $body["senha"] = password_hash($body["senha"], PASSWORD_DEFAULT);
+    return new Usuario(
+        null,
+        $body["email"],
+        $body["senha"],
+        $body["endereco"],
+        $body["cep"]
+    );
+}
