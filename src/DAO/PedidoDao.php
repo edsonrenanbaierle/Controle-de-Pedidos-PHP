@@ -10,11 +10,9 @@ use PDO;
 class PedidoDao
 {
 
-    public function createPedido(Pedido $pedido)
+    public function createPedido(Pedido $pedido, $coon)
     {
         try {
-            $coon = DbConn::coon();
-
             $dataPedido = $pedido->getDataPedido();
             $dataEntregaPedido = $pedido->getDataEntregaPedido();
             $idTipoPagamento = $pedido->getIdTipoPagamento();

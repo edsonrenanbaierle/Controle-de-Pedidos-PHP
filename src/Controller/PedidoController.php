@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DAO\ItemDao;
 use App\DAO\PedidoDao;
+use App\Db\DbConn;
 use App\Http\Request;
 use App\Http\Response;
 
@@ -72,23 +73,27 @@ class PedidoController
             $token = Request::authorization();
             $body = Request::body();
 
+            $coon = DbConn::coon();
+            $coon->beginTransaction();
+
             $pedido = returnInstanciaCriadaPedido($body, $token->idUsuario);
             $pedidoDao = new PedidoDao();
-            $pedidoId = $pedidoDao->createPedido($pedido);
+            $pedidoId = $pedidoDao->createPedido($pedido, $coon);
 
             $itemDao = new ItemDAO();
             for ($i = 0; $i < count($body["pedido"]); $i++) {
                 $item = returnInstanciaCriadoItem($body["pedido"][$i], $pedidoId);
-                $itemDao->addItem($item);
+                $itemDao->addItem($item, $coon);
             }
 
+            $coon->commit();
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
                 "message" => "pedido criado com sucesso!"
             ], 200);
         } catch (\Exception $e) {
-            //$pedidoDao->deletePedido($pedidoId);//ver aqui ainda
+            $coon->rollBack();
             Response::responseMessage([
                 "sucess" => false,
                 "failed" => true,

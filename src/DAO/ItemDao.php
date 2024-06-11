@@ -9,10 +9,9 @@ use Exception;
 class ItemDAO
 {
 
-    public function addItem(Item $item)
+    public function addItem(Item $item, $coon)
     {
         try {
-            $coon = DbConn::coon();
 
             $quantidade = $item->getQuantidade();
             $idProduto = $item->getIdProduto();
@@ -29,6 +28,8 @@ class ItemDAO
 
             return true;
         } catch (\PDOException $e) {
+            if($e->getCode() == 23000) throw new Exception("Falha no processamento do pedido, produto não encontrado", 500);
+            
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {
             throw new Exception($e->getMessage(), 404);
@@ -46,7 +47,7 @@ class ItemDAO
                 FROM item AS i
                 INNER JOIN produto AS p ON i.idProduto = p.idProduto
                 WHERE i.idPedido = :idPedido";
-                
+
         $stmt = $coon->prepare($sql);
         $stmt->bindParam(':idPedido', $idPedido);
         $stmt->execute();
