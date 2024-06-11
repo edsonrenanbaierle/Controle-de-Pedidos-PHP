@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Response;
 use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

@@ -114,22 +114,27 @@ class PedidoDao
     }
 
 
-    public function deletePedido($idPedido)
+    public function deletePedido($idPedido, $idUsuario)
     {
         try {
             $coon = DbConn::coon();
 
             $idStatus = 5;
 
-            $sql = "UPDATE FROM pedido SET idStatus = :idStatus
-                    where idPedido = :idPedido";
+            $sql = "UPDATE pedido SET idStatus = :idStatus
+                    WHERE idPedido = :idPedido
+                    AND idUsuario = :idUsuario";
 
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(':idStatus', $idStatus);
             $stmt->bindParam(':idPedido', $idPedido);
+            $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
 
-            return true;
+            if($stmt->rowCount() == 0) throw new Exception("Não foi possível deletar o pedido, informações invalidas", 500);
+            
+
+            return "Sucesso ao deletar o pedido";
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {

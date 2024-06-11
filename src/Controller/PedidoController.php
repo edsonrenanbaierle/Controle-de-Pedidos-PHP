@@ -127,6 +127,24 @@ class PedidoController
 
     public function deletePedido()
     {
-        echo "deletePedido";
+        try {
+            $token = Request::authorization();
+            $body = Request::body();
+
+            $pedidoDao = new PedidoDao();
+            $result = $pedidoDao->deletePedido($body["idPedido"], $token->idUsuario);
+
+            Response::responseMessage([
+                "sucess" => true,
+                "failed" => false,
+                "message" => $result
+            ], 200);
+        } catch (\Exception $e) {
+            Response::responseMessage([
+                "sucess" => false,
+                "failed" => true,
+                "error" => $e->getMessage(),
+            ], $e->getCode());
+        }
     }
 }
