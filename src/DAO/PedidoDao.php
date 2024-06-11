@@ -62,7 +62,7 @@ class PedidoDao
                     INNER JOIN status AS st ON p.idStatus = st.idStatus
                     WHERE p.idUsuario = :idUsuario
                     AND st.nomeStatus != 'inativo'
-                    AND st.nomeStatus != 'cancelados'";
+                    AND st.nomeStatus != 'cancelado'";
 
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(':idUsuario', $idUsuario);
@@ -92,7 +92,7 @@ class PedidoDao
                     INNER JOIN status AS st ON p.idStatus = st.idStatus
                     WHERE p.idUsuario = :idUsuario
                     AND st.nomeStatus != 'inativo'
-                    AND st.nomeStatus != 'cancelados'
+                    AND st.nomeStatus != 'cancelado'
                     AND p.idPedido = :idPedido";
 
             $stmt = $coon->prepare($sql);
@@ -132,6 +132,35 @@ class PedidoDao
             $stmt->execute();
 
             return true;
+        } catch (\PDOException $e) {
+            throw new Exception($e->getMessage(), 500);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), 404);
+        } finally {
+            $coon = null;
+        }
+    }
+
+    public function cancelPedido($idPedido, $idUsuario)
+    {
+        try {
+            $coon = DbConn::coon();
+
+            $idStatus = 2;
+
+            $sql = "UPDATE pedido SET idStatus = :idStatus
+                    WHERE idPedido = :idPedido
+                    AND idUsuario = :idUsuario";
+
+            $stmt = $coon->prepare($sql);
+            $stmt->bindParam(':idStatus', $idStatus);
+            $stmt->bindParam(':idPedido', $idPedido);
+            $stmt->bindParam(':idUsuario', $idUsuario);
+            $stmt->execute();
+
+            if($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado para cancelamento", 404);
+            
+            return "Atualização realizada com sucesso!";
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {

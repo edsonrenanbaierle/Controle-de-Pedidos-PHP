@@ -48,7 +48,6 @@ class PedidoController
 
             $pedidoDao = new PedidoDao();
             $result = $pedidoDao->getPedido($token->idUsuario, $id[0]);
-            //print_r($result); exit;
             $itemDao = new ItemDao();
             $itensDoPedido = $itemDao->getItensPedidoComProdutos($result["idPedido"]);
             $result["dadosPedido"] = $itensDoPedido;
@@ -100,7 +99,25 @@ class PedidoController
 
     public function cancelPedido()
     {
-        echo "cancelPedido";
+        try {
+            $token = Request::authorization();
+            $body = Request::body();
+
+            $pedidoDao = new PedidoDao();
+            $result = $pedidoDao->cancelPedido($body["idPedido"], $token->idUsuario);
+
+            Response::responseMessage([
+                "sucess" => true,
+                "failed" => false,
+                "message" => $result
+            ], 200);
+        } catch (\Exception $e) {
+            Response::responseMessage([
+                "sucess" => false,
+                "failed" => true,
+                "error" => $e->getMessage(),
+            ], $e->getCode());
+        }
     }
 
     public function deletePedido()
