@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\DAO;
 
@@ -7,9 +7,11 @@ use App\Model\Pedido;
 use Exception;
 use PDO;
 
-class PedidoDao{
+class PedidoDao
+{
 
-    public function createPedido(Pedido $pedido){
+    public function createPedido(Pedido $pedido)
+    {
         try {
             $coon = DbConn::coon();
 
@@ -48,12 +50,25 @@ class PedidoDao{
         }
     }
 
-    public function getPedidos(){
+    public function getPedidosComDetalhes($idUsuario)
+    {
         try {
             $coon = DbConn::coon();
 
+            $sql = "SELECT p.idPedido, p.dataPedido, p.dataEntregaPedido , tp.nomePagamento as tipoDePagamento, u.email, st.nomeStatus as status
+                    FROM pedido AS p
+                    INNER JOIN tipoPagamento AS tp ON p.idTipoPagamento = tp.idPagamento
+                    INNER JOIN usuario AS u ON p.idUsuario = u.idUsuario
+                    INNER JOIN status AS st ON p.idStatus = st.idStatus
+                    WHERE p.idUsuario = :idUsuario";
 
-            return true;
+            $stmt = $coon->prepare($sql);
+            $stmt->bindParam(':idUsuario', $idUsuario);
+            $stmt->execute();
+
+            $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $pedidos;
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {
@@ -63,7 +78,9 @@ class PedidoDao{
         }
     }
 
-    public function deletePedido($idPedido){
+
+    public function deletePedido($idPedido)
+    {
         try {
             $coon = DbConn::coon();
 

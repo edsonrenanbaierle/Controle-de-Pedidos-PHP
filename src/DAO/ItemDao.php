@@ -36,4 +36,30 @@ class ItemDAO
             $coon = null;
         }
     }
+
+    public function getItensPedidoComProdutos($idPedido)
+{
+    try {
+        $coon = DbConn::coon();
+
+        $sql = "SELECT i.quantidade, p.nome AS nome_produto, p.preco AS preco_produto
+                FROM item AS i
+                INNER JOIN produto AS p ON i.idProduto = p.idProduto
+                WHERE i.idPedido = :idPedido";
+        $stmt = $coon->prepare($sql);
+        $stmt->bindParam(':idPedido', $idPedido);
+        $stmt->execute();
+
+        $itens = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $itens;
+    } catch (\PDOException $e) {
+        throw new Exception($e->getMessage(), 500);
+    } catch (\Exception $e) {
+        throw new Exception($e->getMessage(), 404);
+    } finally {
+        $coon = null;
+    }
+}
+
 }

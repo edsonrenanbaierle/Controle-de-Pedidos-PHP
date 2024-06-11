@@ -15,7 +15,30 @@ class PedidoController
 
     public function getAllPedidos()
     {
-        echo "getAllPedidos";
+        try {
+            $token = Request::authorization();
+
+            $pedidoDao = new PedidoDao();
+            $result = $pedidoDao->getPedidosComDetalhes($token->idUsuario);
+
+            $itemDao = new ItemDao();
+            for ($i = 0; $i < count($result); $i++) {
+                $itensDoPedido = $itemDao->getItensPedidoComProdutos($result[$i]["idPedido"]);
+                $result[$i]["dadosPedido"] = $itensDoPedido;
+            }
+
+            Response::responseMessage([
+                "sucess" => true,
+                "failed" => false,
+                "data" => $result
+            ], 200);
+        } catch (\Exception $e) {
+            Response::responseMessage([
+                "sucess" => false,
+                "failed" => true,
+                "error" => $e->getMessage(),
+            ], $e->getCode());
+        }
     }
 
     public function getPedido()
@@ -53,7 +76,7 @@ class PedidoController
             $pedidoId = $pedidoDao->createPedido($pedido);
 
             $itemDao = new ItemDAO();
-            for ($i=0; $i < count($body["pedido"]); $i++) { 
+            for ($i = 0; $i < count($body["pedido"]); $i++) {
                 $item = returnInstanciaCriadoItem($body["pedido"][$i], $pedidoId);
                 $itemDao->addItem($item);
             }
@@ -64,7 +87,7 @@ class PedidoController
                 "message" => "pedido criado com sucesso!"
             ], 200);
         } catch (\Exception $e) {
-            $pedidoDao->deletePedido($pedidoId);//ver aqui ainda
+            //$pedidoDao->deletePedido($pedidoId);//ver aqui ainda
             Response::responseMessage([
                 "sucess" => false,
                 "failed" => true,
