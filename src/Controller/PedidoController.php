@@ -19,7 +19,7 @@ class PedidoController
             $token = Request::authorization();
 
             $pedidoDao = new PedidoDao();
-            $result = $pedidoDao->getPedidosComDetalhes($token->idUsuario);
+            $result = $pedidoDao->getAllPedidos($token->idUsuario);
 
             $itemDao = new ItemDao();
             for ($i = 0; $i < count($result); $i++) {
@@ -41,20 +41,22 @@ class PedidoController
         }
     }
 
-    public function getPedido()
+    public function getPedido($id)
     {
         try {
             $token = Request::authorization();
-            print_r($token);
-            print_r($token->email);
-            print_r($token->idUsuario);
-            exit;
 
-            $respostaAoUsuario = null;
+            $pedidoDao = new PedidoDao();
+            $result = $pedidoDao->getPedido($token->idUsuario, $id[0]);
+            //print_r($result); exit;
+            $itemDao = new ItemDao();
+            $itensDoPedido = $itemDao->getItensPedidoComProdutos($result["idPedido"]);
+            $result["dadosPedido"] = $itensDoPedido;
+
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
-                "token" => $respostaAoUsuario
+                "data" => $result
             ], 200);
         } catch (\Exception $e) {
             Response::responseMessage([

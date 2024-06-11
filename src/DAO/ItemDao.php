@@ -46,6 +46,7 @@ class ItemDAO
                 FROM item AS i
                 INNER JOIN produto AS p ON i.idProduto = p.idProduto
                 WHERE i.idPedido = :idPedido";
+                
         $stmt = $coon->prepare($sql);
         $stmt->bindParam(':idPedido', $idPedido);
         $stmt->execute();

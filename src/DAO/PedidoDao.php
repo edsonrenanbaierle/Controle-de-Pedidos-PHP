@@ -50,7 +50,7 @@ class PedidoDao
         }
     }
 
-    public function getPedidosComDetalhes($idUsuario)
+    public function getAllPedidos($idUsuario)
     {
         try {
             $coon = DbConn::coon();
@@ -60,13 +60,50 @@ class PedidoDao
                     INNER JOIN tipoPagamento AS tp ON p.idTipoPagamento = tp.idPagamento
                     INNER JOIN usuario AS u ON p.idUsuario = u.idUsuario
                     INNER JOIN status AS st ON p.idStatus = st.idStatus
-                    WHERE p.idUsuario = :idUsuario";
+                    WHERE p.idUsuario = :idUsuario
+                    AND st.nomeStatus != 'inativo'
+                    AND st.nomeStatus != 'cancelados'";
 
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
 
             $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $pedidos;
+        } catch (\PDOException $e) {
+            throw new Exception($e->getMessage(), 500);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), 404);
+        } finally {
+            $coon = null;
+        }
+    }
+
+    public function getPedido($idUsuario, $idPedido)
+    {
+        try {
+            $coon = DbConn::coon();
+
+            $sql = "SELECT p.idPedido, p.dataPedido, p.dataEntregaPedido , tp.nomePagamento as tipoDePagamento, u.email, st.nomeStatus as status
+                    FROM pedido AS p
+                    INNER JOIN tipoPagamento AS tp ON p.idTipoPagamento = tp.idPagamento
+                    INNER JOIN usuario AS u ON p.idUsuario = u.idUsuario
+                    INNER JOIN status AS st ON p.idStatus = st.idStatus
+                    WHERE p.idUsuario = :idUsuario
+                    AND st.nomeStatus != 'inativo'
+                    AND st.nomeStatus != 'cancelados'
+                    AND p.idPedido = :idPedido";
+
+            $stmt = $coon->prepare($sql);
+            $stmt->bindParam(':idUsuario', $idUsuario);
+            $stmt->bindParam(':idPedido', $idPedido);
+            $stmt->execute();
+
+            if($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado", 404);
+            
+
+            $pedidos = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return $pedidos;
         } catch (\PDOException $e) {
