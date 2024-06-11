@@ -45,9 +45,30 @@ CREATE  TABLE item(
     FOREIGN KEY (idPedido) REFERENCES pedido(idPedido)
 );
 
+
+drop table item;
+drop table produto;
+drop table pedido;
+drop table status;
+drop table tipoPagamento;
+drop table usuario;
+
+SELECT * from usuario;
+SELECT * from status;
+SELECT * FROM tipoPagamento;
+SELECT *  FROM produto;
+SELECT * from pedido;
+SELECT * FROM item;
+
+DELETE from status where idStatus = 5;
+
+update status set idStatus = 5 where idStatus = 6; 
+
 INSERT INTO status (nomeStatus) values ("enviado");
 INSERT INTO status (nomeStatus) values ("cancelado");
 INSERT INTO status (nomeStatus) values ("entregue");
+INSERT INTO status (nomeStatus) values ("recebido");
+INSERT INTO status (nomeStatus) values ("inativo");
 
 INSERT INTO tipoPagamento (nomePagamento) values ("cartao de credito"); 
 INSERT INTO tipoPagamento (nomePagamento) values ("dinheiro"); 

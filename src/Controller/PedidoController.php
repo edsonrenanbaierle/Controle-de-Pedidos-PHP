@@ -64,6 +64,7 @@ class PedidoController
                 "message" => "pedido criado com sucesso!"
             ], 200);
         } catch (\Exception $e) {
+            $pedidoDao->deletePedido($pedidoId);//ver aqui ainda
             Response::responseMessage([
                 "sucess" => false,
                 "failed" => true,

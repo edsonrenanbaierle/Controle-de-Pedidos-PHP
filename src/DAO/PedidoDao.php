@@ -62,4 +62,28 @@ class PedidoDao{
             $coon = null;
         }
     }
+
+    public function deletePedido($idPedido){
+        try {
+            $coon = DbConn::coon();
+
+            $idStatus = 5;
+
+            $sql = "UPDATE FROM pedido SET idStatus = :idStatus
+                    where idPedido = :idPedido";
+
+            $stmt = $coon->prepare($sql);
+            $stmt->bindParam(':idStatus', $idStatus);
+            $stmt->bindParam(':idPedido', $idPedido);
+            $stmt->execute();
+
+            return true;
+        } catch (\PDOException $e) {
+            throw new Exception($e->getMessage(), 500);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), 404);
+        } finally {
+            $coon = null;
+        }
+    }
 }
