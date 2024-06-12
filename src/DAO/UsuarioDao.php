@@ -50,15 +50,17 @@ class UsuarioDao
             $senha = $usuario->getSenha();
             $endereco = $usuario->getEndereco();
             $cep = $usuario->getCep();
+            $idPermissao = 1;
 
-            $sql = "INSERT INTO usuario (email, senha, endereco, cep)
-                    VALUES (:email, :senha, :endereco, :cep)";
+            $sql = "INSERT INTO usuario (email, senha, endereco, cep, idPermissao)
+                    VALUES (:email, :senha, :endereco, :cep, :idPermissao)";
 
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':senha', $senha);
             $stmt->bindParam(':endereco', $endereco);
             $stmt->bindParam(':cep', $cep);
+            $stmt->bindParam(':idPermissao', $idPermissao);
             $stmt->execute();
 
             return "Usuario cadastrado com sucesso";
@@ -95,6 +97,28 @@ class UsuarioDao
             $stmt->execute();
 
             return "Usuario atualizado com sucesso";
+        } catch (\PDOException $e) {
+            throw new Exception($e->getMessage(), 500);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), 404);
+        } finally {
+            $coon = null;
+        }
+    }
+
+    public function getUser($idUsuario)
+    {
+        try {
+            $coon = DbConn::coon();
+
+            $sql = "SELECT email, endereco, cep FROM usuario
+                    WHERE idUsuario = :idUsuario";
+
+            $stmt = $coon->prepare($sql);
+            $stmt->bindParam(':idUsuario', $idUsuario);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {

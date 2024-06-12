@@ -21,7 +21,8 @@ class Response
             "exp" => time() + 40000,
             "iat" => time(),
             "email" => $body["email"],
-            "idUsuario" => $body["idUsuario"]
+            "idUsuario" => $body["idUsuario"],
+            "permissao" => $body["idPermissao"]
         ];
 
         $encode = JWT::encode($payload, $_ENV['KEY'], "HS256");

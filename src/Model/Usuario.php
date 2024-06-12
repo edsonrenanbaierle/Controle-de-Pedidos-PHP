@@ -9,14 +9,16 @@ class Usuario
     private string $senha;
     private string $endereco;
     private string $cep;
+    private ?int $idPermissao;
 
-    public function __construct(int $idUsuario = null, string $email, string $senha, string $endereco, string $cep)
+    public function __construct(int $idUsuario = null, string $email, string $senha, string $endereco, string $cep, int $idPermissao = null)
     {
         $this->idUsuario = $idUsuario;
         $this->email = $email;
         $this->senha = $senha;
         $this->endereco = $endereco;
         $this->cep = $cep;
+        $this->idPermissao = $idPermissao;
     }
 
     public function getIdUsuario(): int
@@ -68,5 +70,15 @@ class Usuario
     private function setCep(string $cep)
     {
         $this->cep = $cep;
+    }
+
+    public function getIdPermissao()
+    {
+        return $this->idPermissao;
+    }
+
+    private function setIdPermissao($idPermissao)
+    {
+        $this->idPermissao = $idPermissao;
     }
 }

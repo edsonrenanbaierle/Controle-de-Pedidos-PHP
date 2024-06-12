@@ -1,10 +1,18 @@
-CREATE TABLE usuario(
-	idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-	email VARCHAR(150) NOT NULL UNIQUE, 
-	senha VARCHAR(100) NOT NULL,
-	endereco VARCHAR(200) NOT NULL,
-	cep VARCHAR(30) NOT NULL
+CREATE TABLE permissoes (
+    idPermissao INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE usuario (
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(150) NOT NULL UNIQUE, 
+    senha VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200) NOT NULL,
+    cep VARCHAR(30) NOT NULL,
+    idPermissao INT,
+    FOREIGN KEY (idPermissao) REFERENCES permissoes(idPermissao)
+);
+
 
 CREATE TABLE tipoPagamento(
 	idPagamento INT PRIMARY KEY AUTO_INCREMENT,
@@ -59,10 +67,7 @@ SELECT * FROM tipoPagamento;
 SELECT *  FROM produto;
 SELECT * from pedido;
 SELECT * FROM item;
-
-DELETE from status where idStatus = 5;
-
-update status set idStatus = 5 where idStatus = 6; 
+SELECT * FROM permissoes;
 
 INSERT INTO status (nomeStatus) values ("enviado");
 INSERT INTO status (nomeStatus) values ("cancelado");
@@ -78,3 +83,8 @@ INSERT  INTO produto (estoque, nome, preco, descricao) values (20, "Capinha de C
 INSERT  INTO produto (estoque, nome, preco, descricao) values (5, "Camiseta", 10000, "Camiseta Feminina G");
 INSERT  INTO produto (estoque, nome, preco, descricao) values (14, "Bermuda", 5000, "Bermuda Masculina");
 INSERT  INTO produto (estoque, nome, preco, descricao) values (2, "Chuteira", 35000, "Chuteira Masculina De Campo, numero 42");
+
+
+INSERT INTO permissoes (nome) VALUES ('normal');
+INSERT INTO permissoes (nome) VALUES ('admin');
+

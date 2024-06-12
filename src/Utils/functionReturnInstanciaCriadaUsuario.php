@@ -10,7 +10,8 @@ function returnInstanciaCriadaUsuarioCreateUser($body)
         $body["email"],
         $body["senha"],
         $body["endereco"],
-        $body["cep"]
+        $body["cep"],
+        null
     );
 }
 
@@ -22,6 +23,7 @@ function returnInstanciaCriadaUsuarioUpdateUser($body)
         $body["email"],
         $body["senha"],
         $body["endereco"],
-        $body["cep"]
+        $body["cep"],
+        null
     );
 }

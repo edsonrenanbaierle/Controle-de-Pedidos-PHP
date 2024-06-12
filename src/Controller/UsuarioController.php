@@ -84,4 +84,27 @@ class UsuarioController
             ], $e->getCode());
         }
     }
+
+    public function getUser()
+    {
+        try {
+            $token = Request::authorization();
+            $body = Request::body();
+
+            $usuarioDao = new UsuarioDao();
+            $respostaAoUsuario = $usuarioDao->getUser($token->idUsuario);
+
+            Response::responseMessage([
+                "sucess" => true,
+                "failed" => false,
+                "userData" => $respostaAoUsuario
+            ], 200);
+        } catch (\Exception $e) {
+            Response::responseMessage([
+                "sucess" => false,
+                "failed" => true,
+                "error" => $e->getMessage(),
+            ], $e->getCode());
+        }
+    }
 }

@@ -6,10 +6,12 @@ use App\DAO\ItemDao;
 use App\DAO\PedidoDao;
 use App\Db\DbConn;
 use App\Http\Request;
+use App\Http\RequestValidatePedidoController;
 use App\Http\Response;
 
 require_once __DIR__ . "/../Utils/functionReturnInstanciaCriadaPedido.php";
 require_once __DIR__ . "/../Utils/functionReturnInstanciaCriadoItem.php";
+require_once __DIR__ . "/../Http/RequestValidatePedidoController.php";
 
 class PedidoController
 {
@@ -18,7 +20,6 @@ class PedidoController
     {
         try {
             $token = Request::authorization();
-
             $pedidoDao = new PedidoDao();
             $result = $pedidoDao->getAllPedidos($token->idUsuario);
 
@@ -71,9 +72,11 @@ class PedidoController
     {
         try {
             $token = Request::authorization();
-            $body = Request::body();
-
             $coon = DbConn::coon();
+            $body = Request::body();
+            RequestValidatePedidoController::validatePedidoController($body, "createPedido");
+
+
             $coon->beginTransaction();
 
             $pedido = returnInstanciaCriadaPedido($body, $token->idUsuario);
@@ -92,13 +95,21 @@ class PedidoController
                 "failed" => false,
                 "message" => "pedido criado com sucesso!"
             ], 200);
-        } catch (\Exception $e) {
+        } catch (\PDOException $e) {
             $coon->rollBack();
             Response::responseMessage([
                 "sucess" => false,
                 "failed" => true,
                 "error" => $e->getMessage(),
             ], $e->getCode());
+        } catch (\Exception $e) {
+            Response::responseMessage([
+                "sucess" => false,
+                "failed" => true,
+                "error" => $e->getMessage(),
+            ], $e->getCode());
+        } finally {
+            $coon = null;
         }
     }
 
@@ -107,6 +118,7 @@ class PedidoController
         try {
             $token = Request::authorization();
             $body = Request::body();
+            RequestValidatePedidoController::validatePedidoController($body, "cancelPedido");
 
             $pedidoDao = new PedidoDao();
             $result = $pedidoDao->cancelPedido($body["idPedido"], $token->idUsuario);
@@ -130,6 +142,7 @@ class PedidoController
         try {
             $token = Request::authorization();
             $body = Request::body();
+            RequestValidatePedidoController::validatePedidoController($body, "deletePedido");
 
             $pedidoDao = new PedidoDao();
             $result = $pedidoDao->deletePedido($body["idPedido"], $token->idUsuario);
