@@ -88,3 +88,5 @@ INSERT  INTO produto (estoque, nome, preco, descricao) values (2, "Chuteira", 35
 INSERT INTO permissoes (nome) VALUES ('normal');
 INSERT INTO permissoes (nome) VALUES ('admin');
 
+INSERT INTO usuario (email, senha, endereco, cep, idPermissao) values ("edsonbaierle@gmail.com", "$2y$10$V4WNr6geXNGm3SQaFIYIgOaFXJFx35Su7s.jLDyN4ieT.hY3TEJ0S", "Rua Doutor Pedro Eggler", "96859000", 2);
+delete from usuario;
