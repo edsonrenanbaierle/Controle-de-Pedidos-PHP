@@ -23,15 +23,15 @@ class Request
     {
         try {
             $authorization = getallheaders();
-            if(!isset($authorization["Authorization"])) throw new Exception("token não encontrado", 401);
-            
+            if (!isset($authorization["Authorization"])) throw new Exception("token não encontrado", 401);
+
             $authorizationPartials = explode(' ', $authorization['Authorization']);
 
-            $decode = JWT::decode($authorizationPartials[1], new Key($_ENV['KEY'],'HS256'));
+            $decode = JWT::decode($authorizationPartials[1], new Key($_ENV['KEY'], 'HS256'));
             return $decode;
         } catch (\Exception $e) {
-            if($e->getMessage() === "Expired token") throw new Exception("Expired token", 401);
-            
+            if ($e->getMessage() === "Expired token") throw new Exception("Expired token", 401);
+
             throw new Exception($e->getMessage(), 401);
         }
     }

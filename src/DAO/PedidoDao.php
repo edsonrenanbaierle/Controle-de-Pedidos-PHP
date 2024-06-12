@@ -19,11 +19,6 @@ class PedidoDao
             $idStatus = $pedido->getIdStatus();
             $idUsuario = $pedido->getIdUsuario();
 
-            // print_r($idUsuario);
-            // print_r($idStatus);
-            // print_r($idTipoPagamento);
-            // exit;
-
             $dataPedido = $dataPedido->format("Y-m-d H:i:s");
             $dataEntregaPedido = $dataEntregaPedido->format("Y-m-d H:i:s");
 
@@ -98,8 +93,8 @@ class PedidoDao
             $stmt->bindParam(':idPedido', $idPedido);
             $stmt->execute();
 
-            if($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado", 404);
-            
+            if ($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado", 404);
+
 
             $pedidos = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -131,8 +126,8 @@ class PedidoDao
             $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
 
-            if($stmt->rowCount() == 0) throw new Exception("Não foi possível deletar o pedido, informações invalidas", 500);
-            
+            if ($stmt->rowCount() == 0) throw new Exception("Não foi possível deletar o pedido, informações invalidas", 500);
+
 
             return "Sucesso ao deletar o pedido";
         } catch (\PDOException $e) {
@@ -161,8 +156,8 @@ class PedidoDao
             $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
 
-            if($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado para cancelamento", 404);
-            
+            if ($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado para cancelamento", 404);
+
             return "Atualização realizada com sucesso!";
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);

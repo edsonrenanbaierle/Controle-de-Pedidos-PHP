@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace App\Model;
 
-class Item{
+class Item
+{
     private ?int $idItem;
     private int $quantidade;
     private int $idProduto;
@@ -16,7 +17,7 @@ class Item{
         $this->idPedido = $idPedido;
     }
 
-    
+
     public function getIdItem(): ?int
     {
         return $this->idItem;

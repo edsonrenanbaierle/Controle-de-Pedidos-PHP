@@ -1,14 +1,11 @@
 <?php
 
-use App\Model\Item;
-use App\Model\Pedido;
 use App\Model\Produto;
-use App\Model\Usuario;
 
 function returnInstanciaCriadoProduto($body)
 {
     return new Produto(
-        null, 
+        null,
         0,
         $body["nome"],
         $body["preco"],
@@ -19,7 +16,7 @@ function returnInstanciaCriadoProduto($body)
 function returnInstanciaUpdateProduto($body)
 {
     return new Produto(
-        $body["idProduto"], 
+        $body["idProduto"],
         $body["estoque"],
         $body["nome"],
         $body["preco"],

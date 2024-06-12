@@ -16,7 +16,8 @@ class Response
         echo json_encode($body);
     }
 
-    public static function generateToken($body){
+    public static function generateToken($body)
+    {
         $payload = [
             "exp" => time() + 40000,
             "iat" => time(),

@@ -9,7 +9,7 @@ function returnInstanciaCriadaPedido($body, $idUsuario)
     $dataEntrega = new DateTime($dataAtual);
 
     return new Pedido(
-        null, 
+        null,
         $hoje,
         $dataEntrega,
         $body["idTipoDePagamento"],

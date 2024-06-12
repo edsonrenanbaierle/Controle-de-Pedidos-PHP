@@ -103,7 +103,7 @@ class ProdutoDao
 
             $stmt = $coon->prepare($sql);
             $stmt->execute();
-            
+
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
@@ -125,7 +125,7 @@ class ProdutoDao
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(":idProduto", $idProduto);
             $stmt->execute();
-            
+
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
