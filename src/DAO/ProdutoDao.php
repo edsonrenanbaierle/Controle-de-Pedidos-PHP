@@ -5,6 +5,7 @@ namespace App\DAO;
 use App\Db\DbConn;
 use App\Model\Produto;
 use Exception;
+use PDO;
 
 class ProdutoDao
 {
@@ -140,4 +141,42 @@ class ProdutoDao
             $coon = null;
         }
     }
+
+    public function descontarEstoque($conn, $idProduto, $quantidade)
+{
+    try {
+        if($quantidade < 0) throw new Exception("Quantidade negativa Invalida");
+
+        $sql = "SELECT estoque FROM produto
+                WHERE idProduto = :idProduto";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("idProduto", $idProduto);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $quantidadeEmEstoque = $result["estoque"];
+
+        if($stmt->rowCount() == 0) throw new Exception("Produto digitado não encontrado");
+        if($quantidadeEmEstoque == 0) throw new Exception("Produto não disponivel em estoque");
+        if($quantidadeEmEstoque < $quantidade) throw new Exception("A quantidade passada excede a quantidade em estoque");
+        
+        $novaQuantidadeEmEstoque = $quantidadeEmEstoque - $quantidade;
+
+        $sql = "UPDATE produto SET estoque = :quantidade
+                WHERE idProduto = :idProduto";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":idProduto", $idProduto);
+        $stmt->bindParam(":quantidade", $novaQuantidadeEmEstoque);
+        $stmt->execute();
+
+        return true;
+    } catch (\PDOException $e) {
+        throw new Exception($e->getMessage(), 500);
+    } catch (\Exception $e) {
+        throw new Exception($e->getMessage(), 404);
+    }
+}
+
 }

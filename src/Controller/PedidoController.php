@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DAO\ItemDao;
 use App\DAO\PedidoDao;
+use App\DAO\ProdutoDao;
 use App\Db\DbConn;
 use App\Http\Request;
 use App\Http\RequestValidatePedidoController;
@@ -84,9 +85,11 @@ class PedidoController
             $pedidoId = $pedidoDao->createPedido($pedido, $coon);
 
             $itemDao = new ItemDAO();
+            $produtoDao = new ProdutoDao();
             for ($i = 0; $i < count($body["pedido"]); $i++) {
                 $item = returnInstanciaCriadoItem($body["pedido"][$i], $pedidoId);
                 $itemDao->addItem($item, $coon);
+                $produtoDao->descontarEstoque($coon, $body["pedido"][$i]["idProduto"], $body["pedido"][$i]["quantidade"]);
             }
 
             $coon->commit();

@@ -9,7 +9,7 @@ CREATE TABLE usuario (
     senha VARCHAR(100) NOT NULL,
     endereco VARCHAR(200) NOT NULL,
     cep VARCHAR(30) NOT NULL,
-    idPermissao INT,
+    idPermissao INT NOT NULL,
     FOREIGN KEY (idPermissao) REFERENCES permissoes(idPermissao)
 );
 
@@ -36,13 +36,15 @@ CREATE TABLE pedido(
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE produto(
-	idProduto INT PRIMARY KEY AUTO_INCREMENT,
-	estoque INT NOT NULL,
-	nome VARCHAR(50) NOT NULL,
-	preco INT NOT NULL,
-	descricao VARCHAR(100) NOT NULL
+CREATE TABLE produto (
+    idProduto INT PRIMARY KEY AUTO_INCREMENT,
+    estoque INT NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    preco INT NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    CONSTRAINT check_estoque_non_negative CHECK (estoque >= 0)
 );
+
 
 CREATE  TABLE item(
 	idItem INT PRIMARY KEY AUTO_INCREMENT,
