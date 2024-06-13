@@ -96,6 +96,8 @@ class UsuarioDao
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
+            if($stmt->rowCount() == 0) throw new Exception("Usuario não encontrado para atualização");
+
             return "Usuario atualizado com sucesso";
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
@@ -117,6 +119,8 @@ class UsuarioDao
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
+
+            if($stmt->rowCount() == 0) throw new Exception("Usuario não encontrado");
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {

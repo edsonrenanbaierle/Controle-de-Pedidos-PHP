@@ -93,7 +93,7 @@ class PedidoDao
             $stmt->bindParam(':idPedido', $idPedido);
             $stmt->execute();
 
-            if ($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado", 404);
+            if ($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado");
 
 
             $pedidos = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -126,7 +126,7 @@ class PedidoDao
             $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
 
-            if ($stmt->rowCount() == 0) throw new Exception("Não foi possível deletar o pedido, informações invalidas", 500);
+            if ($stmt->rowCount() == 0) throw new Exception("Não foi possível deletar o pedido, informações invalidas");
 
 
             return "Sucesso ao deletar o pedido";
@@ -156,7 +156,7 @@ class PedidoDao
             $stmt->bindParam(':idUsuario', $idUsuario);
             $stmt->execute();
 
-            if ($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado para cancelamento", 404);
+            if ($stmt->rowCount() == 0) throw new Exception("Pedido não encontrado para cancelamento");
 
             return "Atualização realizada com sucesso!";
         } catch (\PDOException $e) {

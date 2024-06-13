@@ -48,7 +48,7 @@ class UsuarioController
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
-                "Message" => $respostaAoUsuario
+                "message" => $respostaAoUsuario
             ], 200);
         } catch (\Exception $e) {
             Response::responseMessage([
@@ -74,7 +74,7 @@ class UsuarioController
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
-                "Message" => $respostaAoUsuario
+                "message" => $respostaAoUsuario
             ], 200);
         } catch (\Exception $e) {
             Response::responseMessage([

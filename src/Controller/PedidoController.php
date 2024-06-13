@@ -32,7 +32,7 @@ class PedidoController
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
-                "data" => $result
+                "pedidos" => $result
             ], 200);
         } catch (\Exception $e) {
             Response::responseMessage([
@@ -57,7 +57,7 @@ class PedidoController
             Response::responseMessage([
                 "sucess" => true,
                 "failed" => false,
-                "data" => $result
+                "pedido" => $result
             ], 200);
         } catch (\Exception $e) {
             Response::responseMessage([

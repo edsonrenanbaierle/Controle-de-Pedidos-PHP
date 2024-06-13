@@ -28,7 +28,7 @@ class ItemDAO
 
             return true;
         } catch (\PDOException $e) {
-            if ($e->getCode() == 23000) throw new Exception("Falha no processamento do pedido, produto não encontrado", 500);
+            if ($e->getCode() == 23000) throw new Exception("Falha no processamento do pedido, produto não encontrado", 404);
 
             throw new Exception($e->getMessage(), 500);
         } catch (\Exception $e) {

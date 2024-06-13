@@ -62,6 +62,9 @@ class ProdutoDao
             $stmt->bindParam(':idProduto', $idProduto);
             $stmt->execute();
 
+            if($stmt->rowCount() == 0) throw new Exception("Produto não encontrado para atualização");
+            
+
             return "Produto atualizado com sucesso!";
         } catch (\PDOException $e) {
             throw new Exception($e->getMessage(), 500);
@@ -83,6 +86,8 @@ class ProdutoDao
             $stmt = $coon->prepare($sql);
             $stmt->bindParam(':idProduto', $idProduto);
             $stmt->execute();
+
+            if($stmt->rowCount() == 0) throw new Exception("Não foi possível deletar o produto");
 
             return "Produto deletado com sucesso!";
         } catch (\PDOException $e) {
